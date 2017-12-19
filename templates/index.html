@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Pedestrian</title>
+</head>
+
+<body>
+<style>
+    .row {
+        display: flex;
+    }
+
+    .row > * {
+        margin-right: 10px;
+    }
+    img{
+        max-height: 300px;
+    }
+</style>
+<h1>Pedestrian detection</h1>
+<form action="{{ request.path }}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file"/>
+    <button type="submit">Submit</button>
+</form>
+{% if request.args.get('img_url') %}
+    {% set imgUrl = request.args.get('img_url') %}
+    <div class="row">
+        <div>
+            <h2>Before</h2>
+            <img src="{{ url_for('static', filename='before/'+ imgUrl ) }}" alt="before img"/>
+        </div>
+        {% set newImage = url_for('static', filename='after/'+ imgUrl) %}
+        <div>
+            <h2>After</h2>
+            <img src="{{ newImage }}" alt="after image"/>
+            <br/>
+            <a download="{{ "pedestrian_detected_" + imgUrl }}" href="{{ newImage }}" title="ImageName" target="_blank">
+                Download
+            </a>
+        </div>
+    </div>
+{% endif %}
+</body>
+</html>
